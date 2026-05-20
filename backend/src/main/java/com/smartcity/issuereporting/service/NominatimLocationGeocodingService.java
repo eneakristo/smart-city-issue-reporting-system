@@ -2,11 +2,13 @@ package com.smartcity.issuereporting.service;
 
 import com.smartcity.issuereporting.config.ApplicationProperties;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,7 +25,12 @@ public class NominatimLocationGeocodingService implements LocationGeocodingServi
     private final ApplicationProperties applicationProperties;
 
     public NominatimLocationGeocodingService(ApplicationProperties applicationProperties) {
-        this.restClient = RestClient.builder().build();
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(Duration.ofSeconds(5));
+        requestFactory.setReadTimeout(Duration.ofSeconds(10));
+        this.restClient = RestClient.builder()
+                .requestFactory(requestFactory)
+                .build();
         this.applicationProperties = applicationProperties;
     }
 

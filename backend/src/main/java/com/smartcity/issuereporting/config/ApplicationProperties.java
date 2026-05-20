@@ -20,6 +20,7 @@ public class ApplicationProperties {
     private final Prioritization prioritization = new Prioritization();
     private final SystemAdmin systemAdmin = new SystemAdmin();
     private final PasswordReset passwordReset = new PasswordReset();
+    private final Email email = new Email();
 
     @Getter
     @Setter
@@ -88,5 +89,15 @@ public class ApplicationProperties {
     public static class PasswordReset {
         private String frontendResetUrl = "http://localhost:5173/reset-password";
         private long tokenExpirationMinutes = 30;
+    }
+
+    @Getter
+    @Setter
+    public static class Email {
+        private String provider = "brevo";
+        private String brevoApiKey;
+        private String fromAddress;
+        private String fromName = "Smart City Issue Reporting";
+        private String brevoBaseUrl = "https://api.brevo.com/v3";
     }
 }
