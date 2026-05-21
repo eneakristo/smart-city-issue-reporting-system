@@ -58,6 +58,8 @@ public class PasswordResetEmailService {
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::handleEmailApiFailure)
                 .toBodilessEntity();
+
+        LOGGER.info("Password reset email API accepted request for recipient={}", recipientEmail);
     }
 
     private String buildPlainTextBody(String resetUrl) {

@@ -13,6 +13,8 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class PasswordResetService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordResetService.class);
 
     private final Map<String, PasswordResetToken> resetTokens = new ConcurrentHashMap<>();
     private final SecureRandom secureRandom = new SecureRandom();
@@ -44,10 +48,17 @@ public class PasswordResetService {
     @Transactional(readOnly = true)
     public void requestPasswordReset(String email) {
         String normalizedEmail = email.trim().toLowerCase();
+        LOGGER.info("Password reset requested for email={}", normalizedEmail);
 
         userRepository.findByEmailIgnoreCase(normalizedEmail)
-                .filter(user -> Boolean.TRUE.equals(user.getActive()))
-                .ifPresent(user -> {
+                .ifPresentOrElse(user -> {
+                    if (!Boolean.TRUE.equals(user.getActive())) {
+                        LOGGER.info("Password reset skipped because account is inactive for email={}", normalizedEmail);
+                        return;
+                    }
+
+                    LOGGER.info("Active account found for password reset email={}", normalizedEmail);
+
                     String token = generateToken();
                     String tokenHash = hashToken(token);
                     Instant expiresAt = Instant.now().plusSeconds(
@@ -55,8 +66,9 @@ public class PasswordResetService {
                     );
 
                     resetTokens.put(tokenHash, new PasswordResetToken(user.getId(), expiresAt));
+                    LOGGER.info("Sending password reset email through configured email provider for email={}", normalizedEmail);
                     emailService.sendPasswordResetEmail(user.getEmail(), buildResetUrl(token));
-                });
+                }, () -> LOGGER.info("Password reset skipped because no account exists for email={}", normalizedEmail));
     }
 
     @Transactional
