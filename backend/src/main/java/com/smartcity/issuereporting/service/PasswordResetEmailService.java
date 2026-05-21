@@ -37,16 +37,7 @@ public class PasswordResetEmailService {
     public void sendPasswordResetEmail(String recipientEmail, String resetUrl) {
         ApplicationProperties.Email emailProperties = applicationProperties.getEmail();
         if (!hasBrevoConfiguration(emailProperties)) {
-            LOGGER.warn(
-                    "Email API is not configured. provider={}, hasApiKey={}, hasFromAddress={}, hasFromName={}, hasBaseUrl={}. Password reset link for {}: {}",
-                    emailProperties.getProvider(),
-                    StringUtils.hasText(emailProperties.getBrevoApiKey()),
-                    StringUtils.hasText(emailProperties.getFromAddress()),
-                    StringUtils.hasText(emailProperties.getFromName()),
-                    StringUtils.hasText(emailProperties.getBrevoBaseUrl()),
-                    recipientEmail,
-                    resetUrl
-            );
+            LOGGER.warn("Email API is not configured. Password reset email was not sent for recipient={}", recipientEmail);
             return;
         }
 
@@ -67,8 +58,6 @@ public class PasswordResetEmailService {
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, this::handleEmailApiFailure)
                 .toBodilessEntity();
-
-        LOGGER.info("Password reset email API accepted request for recipient={}", recipientEmail);
     }
 
     private String buildPlainTextBody(String resetUrl) {
