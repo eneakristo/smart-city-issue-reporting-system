@@ -37,7 +37,16 @@ public class PasswordResetEmailService {
     public void sendPasswordResetEmail(String recipientEmail, String resetUrl) {
         ApplicationProperties.Email emailProperties = applicationProperties.getEmail();
         if (!hasBrevoConfiguration(emailProperties)) {
-            LOGGER.warn("Email API is not configured. Password reset link for {}: {}", recipientEmail, resetUrl);
+            LOGGER.warn(
+                    "Email API is not configured. provider={}, hasApiKey={}, hasFromAddress={}, hasFromName={}, hasBaseUrl={}. Password reset link for {}: {}",
+                    emailProperties.getProvider(),
+                    StringUtils.hasText(emailProperties.getBrevoApiKey()),
+                    StringUtils.hasText(emailProperties.getFromAddress()),
+                    StringUtils.hasText(emailProperties.getFromName()),
+                    StringUtils.hasText(emailProperties.getBrevoBaseUrl()),
+                    recipientEmail,
+                    resetUrl
+            );
             return;
         }
 
