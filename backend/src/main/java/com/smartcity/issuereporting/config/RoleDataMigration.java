@@ -18,9 +18,20 @@ public class RoleDataMigration implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        dropZoneCheckConstraints();
         jdbcTemplate.update("UPDATE users SET active = TRUE WHERE active IS NULL");
         jdbcTemplate.update("UPDATE users SET role = 'ADMINISTRATOR' WHERE role = 'ADMIN'");
-        jdbcTemplate.update("UPDATE users SET assigned_zone = 'ZONE_1' WHERE role = 'ADMINISTRATOR' AND assigned_zone IS NULL");
+        jdbcTemplate.update(
+                """
+                UPDATE users
+                SET assigned_zone = 'ZONE_1'
+                WHERE role = 'ADMINISTRATOR'
+                  AND (
+                      assigned_zone IS NULL
+                      OR assigned_zone NOT IN ('ZONE_1', 'ZONE_2', 'ZONE_3', 'ZONE_4')
+                  )
+                """
+        );
         jdbcTemplate.update(
                 """
                 UPDATE issues
@@ -40,6 +51,14 @@ public class RoleDataMigration implements ApplicationRunner {
                 applicationProperties.getZoning().getSplitLatitude(),
                 applicationProperties.getZoning().getSplitLongitude()
         );
+        jdbcTemplate.update(
+                """
+                UPDATE issues
+                SET zone = NULL
+                WHERE zone IS NOT NULL
+                  AND zone NOT IN ('ZONE_1', 'ZONE_2', 'ZONE_3', 'ZONE_4')
+                """
+        );
 
         String systemAdminEmail = applicationProperties.getSystemAdmin().getBootstrapEmail();
         if (systemAdminEmail != null && !systemAdminEmail.isBlank()) {
@@ -48,5 +67,37 @@ public class RoleDataMigration implements ApplicationRunner {
                     systemAdminEmail.trim()
             );
         }
+        jdbcTemplate.update(
+                """
+                UPDATE users
+                SET assigned_zone = NULL
+                WHERE role <> 'ADMINISTRATOR'
+                  AND assigned_zone IS NOT NULL
+                  AND assigned_zone NOT IN ('ZONE_1', 'ZONE_2', 'ZONE_3', 'ZONE_4')
+                """
+        );
+        applyZoneCheckConstraints();
+    }
+
+    private void dropZoneCheckConstraints() {
+        jdbcTemplate.execute("ALTER TABLE issues DROP CONSTRAINT IF EXISTS issues_zone_check");
+        jdbcTemplate.execute("ALTER TABLE users DROP CONSTRAINT IF EXISTS users_assigned_zone_check");
+    }
+
+    private void applyZoneCheckConstraints() {
+        jdbcTemplate.execute(
+                """
+                ALTER TABLE issues
+                ADD CONSTRAINT issues_zone_check
+                CHECK (zone IS NULL OR zone IN ('ZONE_1', 'ZONE_2', 'ZONE_3', 'ZONE_4'))
+                """
+        );
+        jdbcTemplate.execute(
+                """
+                ALTER TABLE users
+                ADD CONSTRAINT users_assigned_zone_check
+                CHECK (assigned_zone IS NULL OR assigned_zone IN ('ZONE_1', 'ZONE_2', 'ZONE_3', 'ZONE_4'))
+                """
+        );
     }
 }
