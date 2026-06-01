@@ -86,23 +86,7 @@ export function AppContextProvider({ children }: AppContextProviderProps) {
   };
 
   const register = async (payload: RegisterPayload) => {
-    const response = await registerRequest(payload);
-    const session: AuthSession = {
-      accessToken: response.accessToken,
-      user: {
-        id: response.userId,
-        fullName: response.fullName,
-        email: response.email,
-        phoneNumber: response.phoneNumber,
-        bio: response.bio,
-        profilePictureUrl: response.profilePictureUrl,
-        role: normalizeRole(response.role),
-      },
-    };
-
-    storeAuthSession(session);
-    setAccessToken(session.accessToken);
-    setCurrentUser(session.user);
+    await registerRequest(payload);
   };
 
   const logout = () => {

@@ -39,7 +39,7 @@ export function RegisterPage() {
     try {
       setIsSubmitting(true);
       await register({ fullName: fullName.trim(), email: email.trim(), password });
-      navigate('/', { replace: true });
+      navigate('/login', { replace: true });
     } catch (error) {
       setApiError(error instanceof ApiError ? error.message : 'Registration failed. Please try again.');
     } finally {
