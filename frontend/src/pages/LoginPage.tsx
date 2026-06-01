@@ -46,7 +46,7 @@ export function LoginPage() {
       title={t('auth.login.title')}
       description={t('auth.login.description')}
       footer={
-        <p>
+        <p className="login-register-prompt">
           {t('auth.login.noAccount')} <Link to="/register">{t('auth.login.createOne')}</Link>
         </p>
       }

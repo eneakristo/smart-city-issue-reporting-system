@@ -132,7 +132,7 @@ public class IssueService {
         issue.setDescription(request.getDescription().trim());
         issue.setLocationText(request.getLocationText().trim());
         applyResolvedCoordinates(issue, request);
-        issue.setZone(cityZoneService.resolveZone(issue.getLongitude()));
+        issue.setZone(cityZoneService.resolveZone(issue.getLatitude(), issue.getLongitude()));
         issue.setReportedSeverity(issueSeverityMapper.toDatabaseValue(request.getSeverity()));
         issue.setStatus(IssueStatus.REPORTED);
         issue.setDuplicate(false);

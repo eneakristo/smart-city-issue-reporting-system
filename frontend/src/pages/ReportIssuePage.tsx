@@ -383,7 +383,7 @@ export function ReportIssuePage() {
             </label>
 
             <label className="form-field">
-              <span>Severity</span>
+              <span>{t('common.severity')}</span>
               <select value={formValues.severity} onChange={handleChange('severity')}>
                 <option value="LOW">{t('common.low')}</option>
                 <option value="MEDIUM">{t('common.medium')}</option>

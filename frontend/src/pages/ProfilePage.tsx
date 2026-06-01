@@ -4,6 +4,7 @@ import { useAppContext } from '../hooks/useAppContext';
 import { useLanguage } from '../hooks/useLanguage';
 import { ApiError } from '../services/api/apiClient';
 import { changePassword, updateProfile } from '../services/api/authService';
+import { isStrongPassword } from '../utils/authValidation';
 
 const MAX_PROFILE_IMAGE_BYTES = 1_000_000;
 
@@ -125,7 +126,7 @@ export function ProfilePage() {
       return;
     }
 
-    if (newPassword.length < 8) {
+    if (!isStrongPassword(newPassword)) {
       setPasswordError(t('validation.passwordMin'));
       return;
     }

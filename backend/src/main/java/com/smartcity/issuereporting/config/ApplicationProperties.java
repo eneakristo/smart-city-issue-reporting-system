@@ -66,6 +66,7 @@ public class ApplicationProperties {
     @Getter
     @Setter
     public static class Zoning {
+        private BigDecimal splitLatitude = BigDecimal.valueOf(41.3275d);
         private BigDecimal splitLongitude = BigDecimal.valueOf(19.8187d);
     }
 

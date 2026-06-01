@@ -5,9 +5,10 @@ import { useLanguage } from '../hooks/useLanguage';
 import { ApiError } from '../services/api/apiClient';
 import { createUser, listUsers, removeUser, updateUserRole } from '../services/api/systemAdminService';
 import { AssignableUserRole, CityZone, ManagedUser } from '../types/app';
+import { isStrongPassword } from '../utils/authValidation';
 
 const ROLE_OPTIONS: AssignableUserRole[] = ['citizen', 'administrator'];
-const ZONE_OPTIONS: CityZone[] = ['ZONE_1', 'ZONE_2'];
+const ZONE_OPTIONS: CityZone[] = ['ZONE_1', 'ZONE_2', 'ZONE_3', 'ZONE_4'];
 
 export function SystemAdminDashboardPage() {
   const { accessToken, currentUser } = useAppContext();
@@ -66,8 +67,13 @@ export function SystemAdminDashboardPage() {
     setError(null);
     setSuccessMessage(null);
 
-    if (!fullName.trim() || !email.trim() || password.length < 8) {
+    if (!fullName.trim() || !email.trim()) {
       setError(t('system.createValidation'));
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      setError(t('validation.passwordMin'));
       return;
     }
 

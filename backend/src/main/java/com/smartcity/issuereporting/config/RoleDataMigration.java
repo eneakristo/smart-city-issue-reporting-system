@@ -25,12 +25,19 @@ public class RoleDataMigration implements ApplicationRunner {
                 """
                 UPDATE issues
                 SET zone = CASE
-                    WHEN longitude < ? THEN 'ZONE_1'
-                    ELSE 'ZONE_2'
+                    WHEN latitude >= ? AND longitude < ? THEN 'ZONE_1'
+                    WHEN latitude >= ? AND longitude >= ? THEN 'ZONE_2'
+                    WHEN latitude < ? AND longitude < ? THEN 'ZONE_3'
+                    ELSE 'ZONE_4'
                 END
-                WHERE zone IS NULL
+                WHERE latitude IS NOT NULL
                   AND longitude IS NOT NULL
                 """,
+                applicationProperties.getZoning().getSplitLatitude(),
+                applicationProperties.getZoning().getSplitLongitude(),
+                applicationProperties.getZoning().getSplitLatitude(),
+                applicationProperties.getZoning().getSplitLongitude(),
+                applicationProperties.getZoning().getSplitLatitude(),
                 applicationProperties.getZoning().getSplitLongitude()
         );
 

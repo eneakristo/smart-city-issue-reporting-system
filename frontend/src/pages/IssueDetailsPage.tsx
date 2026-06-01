@@ -118,7 +118,7 @@ export function IssueDetailsPage() {
 
               <div className="issue-meta-grid">
                 <div>
-                  <span className="issue-meta-label">Severity</span>
+                  <span className="issue-meta-label">{t('common.severity')}</span>
                   <strong>{t(`common.${issue.severity.toLowerCase()}`)}</strong>
                 </div>
                 <div>

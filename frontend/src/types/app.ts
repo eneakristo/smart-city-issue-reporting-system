@@ -1,6 +1,6 @@
 export type UserRole = 'citizen' | 'administrator' | 'system_admin';
 export type AssignableUserRole = UserRole;
-export type CityZone = 'ZONE_1' | 'ZONE_2';
+export type CityZone = 'ZONE_1' | 'ZONE_2' | 'ZONE_3' | 'ZONE_4';
 
 export type UserProfile = {
   id: string;

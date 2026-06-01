@@ -5,18 +5,6 @@ spring:
     default: local
   jackson:
     time-zone: UTC
-  mail:
-    host: ${SMTP_HOST:}
-    port: ${SMTP_PORT:587}
-    username: ${SMTP_USERNAME:}
-    password: ${SMTP_PASSWORD:}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
 server:
   port: ${SERVER_PORT:8080}
   servlet:
@@ -45,6 +33,7 @@ app:
     country-code: ${APP_GEOCODING_COUNTRY_CODE:al}
     result-limit: ${APP_GEOCODING_RESULT_LIMIT:1}
   zoning:
+    split-latitude: ${APP_ZONE_SPLIT_LATITUDE:41.3275}
     split-longitude: ${APP_ZONE_SPLIT_LONGITUDE:19.8187}
   prioritization:
     city-center-latitude: ${APP_PRIORITY_CENTER_LATITUDE:41.3275}
@@ -56,6 +45,12 @@ app:
   password-reset:
     frontend-reset-url: ${APP_PASSWORD_RESET_FRONTEND_URL:http://localhost:5173/reset-password}
     token-expiration-minutes: ${APP_PASSWORD_RESET_TOKEN_MINUTES:30}
+  email:
+    provider: ${APP_EMAIL_PROVIDER:brevo}
+    brevo-api-key: ${BREVO_API_KEY:}
+    from-address: ${APP_EMAIL_FROM_ADDRESS:}
+    from-name: ${APP_EMAIL_FROM_NAME:Smart City Issue Reporting}
+    brevo-base-url: ${BREVO_BASE_URL:https://api.brevo.com/v3}
 
 logging:
   level:

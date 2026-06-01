@@ -8,7 +8,7 @@ const fallbackTranslate: Translator = (key) => {
     'validation.emailInvalid': 'Enter a valid email address.',
     'validation.passwordRequired': 'Password is required.',
     'validation.fullNameRequired': 'Full name is required.',
-    'validation.passwordMin': 'Password must be at least 8 characters.',
+    'validation.passwordMin': 'Password must be at least 8 characters and include one uppercase letter, one number, and one special character.',
     'validation.confirmPasswordRequired': 'Please confirm your password.',
     'validation.passwordMismatch': 'Passwords do not match.',
   };
@@ -41,7 +41,7 @@ export function validateRegister(values: AuthFormValues, t: Translator = fallbac
 
   if (!values.password) {
     errors.password = t('validation.passwordRequired');
-  } else if (values.password.length < 8) {
+  } else if (!isStrongPassword(values.password)) {
     errors.password = t('validation.passwordMin');
   }
 
@@ -71,7 +71,7 @@ export function validateResetPassword(password: string, confirmPassword: string,
 
   if (!password) {
     errors.password = t('validation.passwordRequired');
-  } else if (password.length < 8) {
+  } else if (!isStrongPassword(password)) {
     errors.password = t('validation.passwordMin');
   }
 
@@ -86,4 +86,8 @@ export function validateResetPassword(password: string, confirmPassword: string,
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+export function isStrongPassword(password: string) {
+  return /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(password);
 }

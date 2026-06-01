@@ -588,7 +588,7 @@ export function AdminDashboardPage() {
                 <span>{t('admin.issue')}</span>
                 <span>{t('common.zone')}</span>
                 <span>{t('common.status')}</span>
-                <span>Severity</span>
+                <span>{t('common.severity')}</span>
                 <span>{t('common.priority')}</span>
                 <span>{t('common.actions')}</span>
               </div>
@@ -696,7 +696,7 @@ export function AdminDashboardPage() {
 
                   <div className="issue-meta-grid">
                     <div>
-                      <span className="issue-meta-label">Severity</span>
+                      <span className="issue-meta-label">{t('common.severity')}</span>
                       <strong>{t(`common.${selectedIssue.severity.toLowerCase()}`)}</strong>
                     </div>
                     <div>
