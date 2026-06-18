@@ -27,7 +27,7 @@ export function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="brand-block">
-        <p className="brand-label">SCIRPS</p>
+        <p className="brand-label">TF</p>
         <h2>{t('common.appName')}</h2>
         <div className="sidebar-session">
           {isAuthenticated

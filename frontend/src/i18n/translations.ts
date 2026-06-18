@@ -7,8 +7,8 @@ export const LANGUAGES: Array<{ code: Language; label: string; shortLabel: strin
 
 export const translations = {
   en: {
-    'common.platform': 'Smart City Platform',
-    'common.appName': 'Smart City Issue Reporting',
+    'common.platform': 'TiranaFix Platform',
+    'common.appName': 'TiranaFix',
     'common.loadingSession': 'Checking session...',
     'common.notSignedIn': 'Not signed in',
     'common.signedInAs': 'Signed in as {{role}}',
@@ -149,7 +149,7 @@ export const translations = {
     'about.title': 'About Us',
     'about.description': 'Learn how the platform helps citizens report city issues and helps administrators organize, prioritize, and resolve them.',
     'about.kicker': 'About the platform',
-    'about.copy': 'Smart City Issue Reporting helps citizens report urban problems clearly and helps local authorities review, organize, and act on those reports through one transparent system.',
+    'about.copy': 'TiranaFix helps citizens report urban problems clearly and helps local authorities review, organize, and act on those reports through one transparent system.',
     'about.card1.title': 'Report city problems',
     'about.card1.copy': 'Citizens can submit issues such as damaged roads, broken streetlights, waste management problems, water leaks, public safety concerns, and other urban challenges with a description, location, category, and image.',
     'about.card2.title': 'Prioritize what needs attention',
@@ -314,8 +314,8 @@ export const translations = {
     'details.noHistory': 'No status history has been recorded yet.',
   },
   sq: {
-    'common.platform': 'Platforma Smart City',
-    'common.appName': 'Raportimi i Problemeve të Qytetit',
+    'common.platform': 'Platforma TiranaFix',
+    'common.appName': 'TiranaFix',
     'common.loadingSession': 'Po kontrollohet sesioni...',
     'common.notSignedIn': 'Nuk jeni kyçur',
     'common.signedInAs': 'Kyçur si {{role}}',
@@ -456,7 +456,7 @@ export const translations = {
     'about.title': 'Rreth Nesh',
     'about.description': 'Mëso si platforma ndihmon qytetarët të raportojnë probleme dhe administratorët t’i organizojnë, prioritizojnë dhe zgjidhin.',
     'about.kicker': 'Rreth platformës',
-    'about.copy': 'Raportimi i Problemeve të Qytetit ndihmon qytetarët të raportojnë qartë problemet urbane dhe autoritetet t’i shqyrtojnë e menaxhojnë në një sistem transparent.',
+    'about.copy': 'TiranaFix ndihmon qytetarët të raportojnë qartë problemet urbane dhe autoritetet t’i shqyrtojnë e menaxhojnë në një sistem transparent.',
     'about.card1.title': 'Raporto probleme qyteti',
     'about.card1.copy': 'Qytetarët mund të dërgojnë rrugë të dëmtuara, ndriçim të prishur, probleme mbetjesh, rrjedhje uji, siguri publike dhe sfida të tjera me përshkrim, vendndodhje, kategori dhe imazh.',
     'about.card2.title': 'Prioritizo çfarë kërkon vëmendje',
