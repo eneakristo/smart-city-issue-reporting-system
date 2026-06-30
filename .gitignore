@@ -10,6 +10,11 @@ Thumbs.db
 # Logs
 *.log
 
+# Local secrets
+.env
+.env.*
+!.env.example
+
 # Backend
 backend/target/
 

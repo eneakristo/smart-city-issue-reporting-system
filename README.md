@@ -37,8 +37,10 @@ Required Render environment variables:
 - `APP_EMAIL_FROM_NAME`: sender display name, for example `Smart City Issue Reporting`.
 - `APP_PASSWORD_RESET_FRONTEND_URL`: deployed frontend reset page, for example `https://your-frontend.onrender.com/reset-password`.
 
-The backend also needs PostgreSQL connection variables before it can start:
+The backend also needs PostgreSQL connection variables before it can start. For Supabase, copy one complete connection mode from Dashboard > Connect and keep the host, port, and username from the same mode:
 
 - `SPRING_DATASOURCE_URL`: JDBC URL, for example `jdbc:postgresql://host:5432/database`.
 - `SPRING_DATASOURCE_USERNAME`: database username.
 - `SPRING_DATASOURCE_PASSWORD`: database password.
+
+Supabase direct connections use username `postgres` with host `db.<project-ref>.supabase.co`. Supabase shared pooler session connections use host `aws-<region>.pooler.supabase.com`, port `5432`, and username `postgres.<project-ref>`.
