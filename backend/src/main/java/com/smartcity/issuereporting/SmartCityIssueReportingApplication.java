@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 @SpringBootApplication
@@ -17,7 +18,9 @@ public class SmartCityIssueReportingApplication {
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(SmartCityIssueReportingApplication.class);
-        application.addListeners(SmartCityIssueReportingApplication::logDatabaseConfiguration);
+        ApplicationListener<ApplicationEnvironmentPreparedEvent> databaseConfigurationLogger =
+                SmartCityIssueReportingApplication::logDatabaseConfiguration;
+        application.addListeners(databaseConfigurationLogger);
         application.run(args);
     }
 
